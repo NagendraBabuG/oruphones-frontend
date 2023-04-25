@@ -1,23 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import SelectQuery from "./components/query";
+import './App.css'
 
+import ReactVirtualizedTable from "./components/users";
+import UserList from "./components/usersList";
+import { useState } from "react";
 function App() {
+ const [queryNo, setQueryNo] = useState(1)
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+       <div className="query">
+          <SelectQuery queryNo={queryNo} setQueryNo={setQueryNo}></SelectQuery>
+       </div>
+       <div className="table">
+          <UserList queryNo={queryNo}></UserList>
+       </div>
     </div>
   );
 }
