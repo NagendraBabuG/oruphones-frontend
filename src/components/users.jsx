@@ -1,7 +1,9 @@
-import "./usersList";
+import "./usersList.css";
 import axios from "axios";
 import { useState, useEffect, useMemo } from "react";
-import { useTable } from "react-table";
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+
 const UserList = ({ queryNo }) => {
   if (queryNo < 1 && queryNo > 5) queryNo = 1;
   const [isFive, setIsFive] = useState(false)
@@ -73,66 +75,68 @@ const UserList = ({ queryNo }) => {
       show: isFive
     }
   ]
- // let columns;
   const [users, setUsers] = useState([]);
   
   
   useEffect(() => {
     const getUserData = async () => {
       const userData = await axios.get(
-        `http://localhost:3001/getData/query${queryNo}`
+        `https://oruphonesbackend.onrender.com/getData/query${queryNo}`,
+        {
+          key: `query${queryNo}`
+        }
       );
-   //   console.log(userData);
 
       let dataUser = userData.data.data;
       if (typeof dataUser === "string") {
         dataUser = JSON.parse(dataUser);
       }
+      console.log(dataUser)
       setUsers(dataUser);
     };
     getUserData();
     console.log("data", users);
     if(queryNo == 5) setIsFive(true)
-    else setIsFive(true)
+    else setIsFive(false)
   }, [queryNo]);
   
   const data = useMemo(() => users, [users]);
   const columns = useMemo(() => headersData, [isFive]);
   const filteredColumns = useMemo(() => columns.filter(column1 => column1.show), [columns])
-  //setHeaders()
   console.log(filteredColumns)
   
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ filteredColumns, data });
 
   return (
     <div className="user-table">
       {users ? (
-        <table {...getTableProps()}>
-          <thead>
-            {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps()}>
-                    {column.render("Header")}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {rows.map((row) => {
-              prepareRow(row);
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                  ))}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className="table-container">
+      <Table>
+        <Thead>
+            <Tr>
+              {
+                filteredColumns.map((column)=>(
+                  <Th key={column.accessor}>{column.Header}</Th>
+                ))
+              }
+            </Tr>
+        </Thead>
+        <Tbody>
+              {
+                data.map((row, index)=>(
+                  <Tr key={index + 1}>
+                    
+                      {
+                        filteredColumns.map((column, columnIndex) => (
+                          <Td key={columnIndex + 1} className={`td${column.accessor == 'email'?'email-col':''}${column.accessor == 'quote'? 'quote-col':''}`}>{row[column.accessor]}</Td>
+                        ))
+                      }
+                  </Tr>
+                ))
+              }
+        </Tbody>
+      </Table>
+      </div>
+       
       ) : null}
     </div>
   );

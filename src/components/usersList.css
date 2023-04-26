@@ -1,5 +1,65 @@
-.user-table
-{
+.user-table {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .table-container {
+    max-height: 600px; /* Set the desired height for the scrollable table */
+    overflow-y: auto;
+  }
+  
+  Table {
     margin: auto;
-    text-align: center;
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    border-spacing: 0px;
+  }
+  
+  Thead {
+    background-color: #d29e2e;
+    position: sticky;
+    
+    top: 0;
+  }
+  Thead:hover{
+    background-color: #d29e2e;
+  }
+  Th {
+   
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+  }
+  
+  Tbody {
+    font-size: 14px;
+  }
+  
+  Tr:nth-child(even) {
+    background-color: #f8f8f8;
+  }
+  
+  Tr:hover {
+    background-color: #ebebeb;
+  }
+  
+  Td {
+    padding: 10px;
+    white-space: nowrap;
+    word-wrap: break-word;
+  }
+  .tdemail-col{
+    width: 200px;
+    overflow-x: scroll;
+  }
+.tdquote-col{
+    overflow-x: scroll;
 }
+
+
+td::-webkit-scrollbar {
+    width: 0.5em; /* adjust as needed */
+     /* adjust as needed */
+  }
+  

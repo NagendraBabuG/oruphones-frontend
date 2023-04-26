@@ -1,3 +1,8 @@
 .queryComponent{
     justify-content: center;
 }
+.menuitem{
+      overflow: 'hidden';
+      text-overflow: ellipsis;
+      white-space: 'nowrap';
+}
